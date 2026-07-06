@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Tablero kanban</title>
+</head>
+<body>
+    <div class="conatiner">
+    <h1>Mini Jira</h1>
+    <form method="post" class="task-form">
+        <input type="text" name="title" placeholder="Titulo de la tarea" required>
+        <br><br>
+        <textarea name="description" placeholder="description"></textarea>
+        <br><br>
+        <button type="submit">Agregar Tarea</button>
+    </form>
+  <div class="board">
+            <div class="column">
+                <h2>To Do</h2>
+                {% for task in tasks %}
+                    {% if task.status == "porhacer" %}
+                        <div class="card">
+                            <strong>{{ task.title }}</strong>
+                            <p>{{ task.description }}</p>
+                            <small>{{ task.status }}</small><br>
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="column">
+                <h2>En proceso</h2>
+                {% for task in tasks %}
+                    {% if task.status == "en proceso" %}
+                        <div class="card">
+                            <strong>{{ task.title }}</strong>
+                            <p>{{ task.description }}</p>
+                            <small>{{ task.status }}</small><br>
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="column">
+                <h2>Hecho</h2>
+                {% for task in tasks %}
+                    {% if task.status == "hecho" %}
+                        <div class="card">
+                            <strong>{{ task.title }}</strong>
+                            <p>{{ task.description }}</p>
+                            <small>{{ task.status }}</small><br>
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
