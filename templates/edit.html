@@ -15,9 +15,9 @@
         <br><br>
         <select name="status">
             <!--Se utiliza task para buscar el status de las tareas y luego actualziarlas -->>
-            <option value="por hacer" {% if task.status == "todo" %}selected{% endif %}>Por hacer</option>
-            <option value="en proceso" {% if task.status == "doing"%}selected{% endif%}>En proceso</option>
-            <option value="hecho" {% if task.status == "done"%}selected{% endif%}>Hecho</option>
+            <option value="todo" {% if task.status == "todo" %}selected{% endif %}>Por hacer</option>
+            <option value="doing" {% if task.status == "doing" %}selected{% endif %}>En proceso</option>
+            <option value="done" {% if task.status == "done" %}selected{% endif %}>Hecho</option>
         </select>
         <br><br>
         <button type="submit">Guardar</button>

@@ -14,7 +14,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    status = db.Column(db.String(20), default="porhacer")
+    status = db.Column(db.String(20), default="todo")
 
 
 #POST es para subnir cambios y pos GET es para obtener infomracion, PUT es actualizar alguna tabla existente.
@@ -30,8 +30,21 @@ def index():
 
         return redirect(url_for("index"))
 
+
+    #conteo de tareas que se agregan.
     tasks = Task.query.all()
-    return render_template("index.html", tasks=tasks)
+    todo_count = Task.query.filter_by(status="todo").count()
+    doing_count = Task.query.filter_by(status="doing").count()
+    done_count = Task.query.filter_by(status="done").count()
+
+
+    return render_template(
+        "index.html", 
+        tasks=tasks,
+        todo_count=todo_count,
+        doing_count=doing_count,
+        done_count=done_count
+    )
 
 
 #eliminar una tarea en base al id de esta misma.
@@ -57,6 +70,13 @@ def edit_task(task_id):
         return redirect(url_for("index"))
 
     return render_template("edit.html", task=task)
+
+@app.route("/move/<int:task_id>/<string:new_status>", methods=["POST"])
+def move_task(task_id, new_status):
+    task = Task.query.get_or_404(task_id)
+    task.status = new_status
+    db.session.commit()
+    return redirect(url_for("index"))
 
 #constructor 
 if __name__ == "__main__":
