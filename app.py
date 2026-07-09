@@ -15,19 +15,26 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(20), default="todo")
+    priority = db.Column(db.String(20), default="Medio")
 
 
 #POST es para subnir cambios y pos GET es para obtener infomracion, PUT es actualizar alguna tabla existente.
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        title = request.form["title"]
-        description = request.form["description"]
+        title = request.form.get("title", "").strip()
+        description = request.form.get("description", "").strip()
+        priority = request.form.get("priority","Medio")
 
-        new_task = Task(title=title, description=description)
+        if len(title) < 3:
+            return "el titulo debe tener almenos 3 caracteres", 400
+        if priority not in ["Bajo","Medio","Alto"]:
+            return "prioridad invalida", 400
+
+        new_task = Task(title=title, description=description, priority = priority)
         db.session.add(new_task)
         db.session.commit()
-
+        
         return redirect(url_for("index"))
 
 

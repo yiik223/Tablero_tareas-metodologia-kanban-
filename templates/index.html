@@ -14,6 +14,12 @@
             <form method="post" class="task-form">
                 <input type="text" name="title" placeholder="Titulo de la tarea" required>
                 <textarea name="description" placeholder="Description"></textarea>
+                <p><strong>Tipo de prioridad</strong></p>
+                <select name="priority" id="" required>
+                    <option value="Bajo">Bajo</option>
+                    <option value="Medio" selected>Medio</option>
+                    <option value="Alto">Alto</option>
+                </select>
                 <button type="submit">Agregar Tarea</button>
             </form>
 
@@ -32,6 +38,7 @@
                         <div class="card">
                             <strong>{{ task.title }}</strong>
                             <p>{{ task.description }}</p>
+                            <p>Priodridad: {{ task.priority }}</p>
                             <div class="actions">
                                 <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
                                 <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
@@ -51,6 +58,7 @@
                         <div class="card">
                             <strong>{{ task.title }}</strong>
                             <p>{{ task.description }}</p>
+                            <p>Priodridad: {{ task.priority }}</p>
                             <div class="actions">
                                 <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
                                 <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
@@ -70,6 +78,7 @@
                         <div class="card">
                             <strong>{{ task.title }}</strong>
                             <p>{{ task.description }}</p>
+                            <p>Priodridad: {{ task.priority }}</p>
                             <div class="actions">
                                 <a href="{{ url_for('edit_task', task_id=task.id) }}">Editar</a>
                                 <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>

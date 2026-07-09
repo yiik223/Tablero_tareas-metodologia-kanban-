@@ -3,26 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edicion de tarea</title>
+    <title>Edición de tarea</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Editar tarea</h1>
+    <div class="container">
+        <h1>Editar tarea</h1>
 
-    <form method="post">
-        <input type="text" name="title" value="{{task.title}}" required>
-        <br><br>
-        <input type="text" name="description" value="{{task.description}}">
-        <br><br>
-        <select name="status">
-            <!--Se utiliza task para buscar el status de las tareas y luego actualziarlas -->>
-            <option value="todo" {% if task.status == "todo" %}selected{% endif %}>Por hacer</option>
-            <option value="doing" {% if task.status == "doing" %}selected{% endif %}>En proceso</option>
-            <option value="done" {% if task.status == "done" %}selected{% endif %}>Hecho</option>
-        </select>
-        <br><br>
-        <button type="submit">Guardar</button>
-    </form>
-    <br>
-    <a href="{{ url_for('index') }}">Volver</a>
+        <div class="top-panel">
+            <form method="post" class="task-form">
+                <input type="text" name="title" value="{{ task.title }}" required>
+                <textarea name="description" placeholder="Descripción">{{ task.description }}</textarea>
+                <p><strong>Estado</strong></p>
+                <select name="status" required>
+                    <option value="todo" {% if task.status == "todo" %}selected{% endif %}>Por hacer</option>
+                    <option value="doing" {% if task.status == "doing" %}selected{% endif %}>En proceso</option>
+                    <option value="done" {% if task.status == "done" %}selected{% endif %}>Hecho</option>
+                </select>
+                <p><strong>Tipo de prioridad</strong></p>
+                <select name="priority" required>
+                    <option value="bajo" {% if task.priority == "bajo" %}selected{% endif %}>Bajo</option>
+                    <option value="medio" {% if task.priority == "medio" %}selected{% endif %}>Medio</option>
+                    <option value="alto" {% if task.priority == "alto" %}selected{% endif %}>Alto</option>
+                </select>
+
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="actions" >Volver</a>
+    </div>
 </body>
 </html>
