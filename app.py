@@ -1,21 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from models import db, User, Task
 
 #Configuracion BD
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db.init_app(app)
 
-#base de datos, conexion con flask 
-db = SQLAlchemy(app)
 
-#estructura base de datos 
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    status = db.Column(db.String(20), default="todo")
-    priority = db.Column(db.String(20), default="Medio")
 
 
 #POST es para subnir cambios y pos GET es para obtener infomracion, PUT es actualizar alguna tabla existente.
@@ -84,6 +77,8 @@ def move_task(task_id, new_status):
     task.status = new_status
     db.session.commit()
     return redirect(url_for("index"))
+
+
 
 #constructor 
 if __name__ == "__main__":
