@@ -1,0 +1,16 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+
+# Base de datos de Flask
+instance/
+
+# Variables de entorno
+.env
+
+# Configuración de VS Code
+.vscode/
