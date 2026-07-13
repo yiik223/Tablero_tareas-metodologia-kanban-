@@ -1,19 +1,28 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from models import db, User, Task
+from auth.routes import auth
 
 #Configuracion BD
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = "tu_clave_secreta"
 db.init_app(app)
 
+# definicion de blueprint
+app.register_blueprint(auth)
 
 
-
-#POST es para subnir cambios y pos GET es para obtener infomracion, PUT es actualizar alguna tabla existente.
+#Estructuracion de Pagina 
 @app.route("/", methods=["GET", "POST"])
 def index():
+
+    #validacion de usuario
+    if "user_id" not in session: 
+        return redirect(url_for("auth.login"))
+
+    #formulario de tareas 
     if request.method == "POST":
         title = request.form.get("title", "").strip()
         description = request.form.get("description", "").strip()
@@ -71,6 +80,7 @@ def edit_task(task_id):
 
     return render_template("edit.html", task=task)
 
+#funcion para mover tarea de tarjeta en el panel 
 @app.route("/move/<int:task_id>/<string:new_status>", methods=["POST"])
 def move_task(task_id, new_status):
     task = Task.query.get_or_404(task_id)
